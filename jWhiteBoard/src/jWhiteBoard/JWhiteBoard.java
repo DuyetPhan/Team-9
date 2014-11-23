@@ -41,6 +41,8 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
     private boolean                use_unicasts=false;
     protected boolean              send_own_state_on_merge=true;
     private final                  List<Address> members=new ArrayList<Address>();
+    
+   
 
 
     
@@ -268,7 +270,8 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
         drawPanel.setBackground(backgroundColor);
         subPanel=new JPanel();
         mainFrame.getContentPane().add("Center", drawPanel);
-        clearButton=new JButton("Clean");
+        // sua button
+        clearButton=new JButton("Clear");
         clearButton.setFont(defaultFont);
         clearButton.addActionListener(this);
         leaveButton=new JButton("Exit");
