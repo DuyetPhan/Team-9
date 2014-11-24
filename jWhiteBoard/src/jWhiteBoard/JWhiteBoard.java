@@ -461,7 +461,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 				return;
 			}
 			sendClearPanelMsg();
-		} else if ("Leave".equals(command)) {
+		} else if (e.getSource()==leaveButton) {//fix
 			stop();
 		} else
 			System.out.println("Unknown action");
