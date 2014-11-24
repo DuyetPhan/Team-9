@@ -10,6 +10,7 @@ import org.jgroups.util.Util;
 
 import javax.management.MBeanServer;
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -36,7 +37,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 	private JButton clearButton, leaveButton;
 	private final Random random = new Random(System.currentTimeMillis());
 	private final Font defaultFont = new Font("Helvetica", Font.PLAIN, 12);
-	private final Color drawColor = Color.black;
+	private final Color drawColor = selectColor(); //fix draw color
 	// sua mau nen
 	private static final Color backgroundColor = Color.WHITE;
 	boolean noChannel = false;
