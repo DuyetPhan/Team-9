@@ -666,7 +666,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		 * send Draw command as a message to member of Group
 		 */
 		public void mouseDragged(MouseEvent e) {
-			int x = e.getX(), y = e.getX();
+			int x = e.getX(), y = e.getY(); //fixed 
 			DrawCommand comm = new DrawCommand(DrawCommand.DRAW, x, y,
 					drawColor.getRGB());
 
