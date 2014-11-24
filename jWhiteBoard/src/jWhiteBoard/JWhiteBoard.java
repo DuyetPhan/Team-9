@@ -284,7 +284,8 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		clearButton = new JButton("Clear");
 		clearButton.setFont(defaultFont);
 		clearButton.addActionListener(this);
-		leaveButton = new JButton("Exit");
+		// sua button 
+		leaveButton = new JButton("Leave");
 		leaveButton.setFont(defaultFont);
 		leaveButton.addActionListener(this);
 		subPanel.add("South", clearButton);
@@ -301,7 +302,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 			channel.connect(groupName, null, stateTimeout);
 		}
 		mainFrame.setVisible(true);
-
+// seTtite cho Title
 		setTitle();
 	}
 
