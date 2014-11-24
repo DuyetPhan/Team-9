@@ -455,7 +455,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 	 */
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
-		if ("Clear".equals(command)) {
+		if (e.getSource()==clearButton) {
 			if (noChannel) {
 				clearPanel();
 				return;
