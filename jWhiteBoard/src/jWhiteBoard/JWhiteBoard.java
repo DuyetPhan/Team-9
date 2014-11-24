@@ -28,7 +28,7 @@ import java.util.List;
 
 public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		ChannelListener {
-	protected String groupName = "";
+	protected String groupName = "OKGROUP";
 	private JChannel channel = null;
 	private int memberSize = 1;
 	private JFrame mainFrame = null;
@@ -37,7 +37,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 	private JButton clearButton, leaveButton;
 	private final Random random = new Random(System.currentTimeMillis());
 	private final Font defaultFont = new Font("Helvetica", Font.PLAIN, 12);
-	private final Color drawColor = selectColor(); //fix draw color
+	private final Color drawColor = selectColor(); // fix draw color
 	// sua mau nen
 	private static final Color backgroundColor = Color.WHITE;
 	boolean noChannel = false;
@@ -129,9 +129,9 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 	 * 
 	 * @param groupName
 	 */
-	public void setGroupName(String groupName) {
-		if (groupName != null)
-			groupName = groupName;
+	public void setGroupName(String GroupName) {
+		if (GroupName != null)
+			groupName = GroupName;//fix here
 	}
 
 	/**
@@ -218,7 +218,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 			whiteBoard = new JWhiteBoard(props, no_channel, jmx, use_state,
 					state_timeout, use_unicasts, name, send_own_state_on_merge,
 					generator);
-			if (group_name == null)
+			if (group_name != null)
 				whiteBoard.setGroupName(group_name);
 			whiteBoard.go();
 		} catch (Throwable e) {
@@ -285,7 +285,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		clearButton = new JButton("Clear");
 		clearButton.setFont(defaultFont);
 		clearButton.addActionListener(this);
-		// sua button 
+		// sua button
 		leaveButton = new JButton("Leave");
 		leaveButton.setFont(defaultFont);
 		leaveButton.addActionListener(this);
@@ -303,7 +303,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 			channel.connect(groupName, null, stateTimeout);
 		}
 		mainFrame.setVisible(true);
-// seTtite cho Title
+		// seTtite cho Title
 		setTitle();
 	}
 
@@ -600,7 +600,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 					Point point = entry.getKey();
 					Color col = entry.getValue();
 					dos.writeInt(point.x);
-					dos.writeInt(point.y); //fixed
+					dos.writeInt(point.y); // fixed
 					dos.writeInt(col.getRGB());
 				}
 				dos.flush();
@@ -666,7 +666,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		 * send Draw command as a message to member of Group
 		 */
 		public void mouseDragged(MouseEvent e) {
-			int x = e.getX(), y = e.getY(); //fixed 
+			int x = e.getX(), y = e.getY(); // fixed
 			DrawCommand comm = new DrawCommand(DrawCommand.DRAW, x, y,
 					drawColor.getRGB());
 
