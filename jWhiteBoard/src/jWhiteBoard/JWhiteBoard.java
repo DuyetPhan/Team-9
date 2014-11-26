@@ -282,7 +282,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		subPanel = new JPanel();
 		mainFrame.getContentPane().add("Center", drawPanel);
 		// sua button
-		clearButton = new JButton("Clear");
+		clearButton = new JButton("Clear");//abc
 		clearButton.setFont(defaultFont);
 		clearButton.addActionListener(this);
 		// sua button
