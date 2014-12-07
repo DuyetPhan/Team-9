@@ -34,7 +34,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 	private JFrame mainFrame = null;
 	private JPanel subPanel = null;
 	private DrawPanel drawPanel = null;
-	private JButton clearButton, leaveButton;
+	private JButton clearButton, leaveButton, brushColorButton;
 	private final Random random = new Random(System.currentTimeMillis());
 	private final Font defaultFont = new Font("Helvetica", Font.PLAIN, 12);
 	private final Color drawColor = selectColor(); // fix draw color
@@ -131,7 +131,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 	 */
 	public void setGroupName(String GroupName) {
 		if (GroupName != null)
-			groupName = GroupName;//fix here
+			groupName = GroupName;// fix here
 	}
 
 	/**
@@ -282,19 +282,25 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		subPanel = new JPanel();
 		mainFrame.getContentPane().add("Center", drawPanel);
 		// sua button
-		clearButton = new JButton("Clear");//abc
+		clearButton = new JButton("Clear");
 		clearButton.setFont(defaultFont);
 		clearButton.addActionListener(this);
+		// button brushColorButton
+		brushColorButton = new JButton("Brush");
+		brushColorButton.setFont(defaultFont);
+		brushColorButton.addActionListener(this);
 		// sua button
 		leaveButton = new JButton("Leave");
 		leaveButton.setFont(defaultFont);
 		leaveButton.addActionListener(this);
 		subPanel.add("South", clearButton);
 		subPanel.add("South", leaveButton);
+		subPanel.add("South", brushColorButton);
 		mainFrame.getContentPane().add("South", subPanel);
 		mainFrame.setBackground(backgroundColor);
 		clearButton.setForeground(Color.blue);
 		leaveButton.setForeground(Color.blue);
+		brushColorButton.setForeground(Color.blue);
 		mainFrame.pack();
 		mainFrame.setLocation(15, 25);
 		mainFrame.setBounds(new Rectangle(250, 250));
@@ -455,14 +461,16 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 	 */
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
-		if (e.getSource()==clearButton) {
+		if (e.getSource() == clearButton) {
 			if (noChannel) {
 				clearPanel();
 				return;
 			}
 			sendClearPanelMsg();
-		} else if (e.getSource()==leaveButton) {//fix
+		} else if (e.getSource() == leaveButton) {// fix
 			stop();
+		} else if (e.getSource() == brushColorButton) {
+			functionBrushColor();// call function here
 		} else
 			System.out.println("Unknown action");
 	}
@@ -758,5 +766,12 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		}
 
 	}
+
+	/**
+	 * This is function brush color//Fix here
+	 */
+	public void functionBrushColor() {
+
+	}// method
 
 }
