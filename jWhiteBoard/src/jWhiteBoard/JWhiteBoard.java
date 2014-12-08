@@ -34,13 +34,14 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 	private JFrame mainFrame = null;
 	private JPanel subPanel = null;
 	private DrawPanel drawPanel = null;
-	private JButton clearButton, leaveButton, setTitleButton, brushColorButton;
+	private JButton clearButton, leaveButton, setTitleButton, brushColorButton,
+			background;
 	private JTextField txtGroup;
 	private final Random random = new Random(System.currentTimeMillis());
 	private final Font defaultFont = new Font("Helvetica", Font.PLAIN, 12);
 	private final Color drawColor = selectColor(); // fix draw color
 	// sua mau nen
-	private static final Color backgroundColor = Color.WHITE;
+	private static Color backgroundColor = Color.WHITE;
 	boolean noChannel = false;
 	boolean jmx;
 	private boolean useState = false;
@@ -256,7 +257,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		int red = Math.abs(random.nextInt()) % 255;
 		int green = Math.abs(random.nextInt()) % 255;
 		int blue = Math.abs(random.nextInt()) % 255;
-		return new Color(red, blue, blue);
+		return new Color(red, green, blue);
 	}
 
 	/**
@@ -301,12 +302,20 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		brushColorButton = new JButton("Brush");
 		brushColorButton.setFont(defaultFont);
 		brushColorButton.addActionListener(this);
+
+		// Background Color
+		background = new JButton("Display");
+		background.setFont(defaultFont);
+		background.setForeground(Color.blue);
+		background.addActionListener(this);
+
 		// sua button
 		leaveButton = new JButton("Leave");
 		leaveButton.setFont(defaultFont);
 		leaveButton.addActionListener(this);
 		subPanel.add("South", clearButton);
 		subPanel.add("South", leaveButton);
+		subPanel.add("South", background);
 		subPanel.add("South", brushColorButton);
 		subPanel.add("South", setTitleButton);
 		subPanel.add("South", txtGroup);
@@ -319,8 +328,6 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		brushColorButton.setForeground(Color.blue);
 		setTitleButton.setForeground(Color.blue);
 		mainFrame.pack();
-		mainFrame.setLocation(15, 25);
-		mainFrame.setBounds(new Rectangle(450, 250));
 
 		if (!noChannel && useState) {
 			channel.connect(groupName, null, stateTimeout);
@@ -490,8 +497,18 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 			functionBrushColor();// call function here
 		} else if (e.getSource() == setTitleButton) {
 			functionSetTitle();// call function
-		} else
-			System.out.println("Unknown action");
+		} else if (e.getSource() == background) {
+			Color c = JColorChooser.showDialog(null, "Pick your color",
+					backgroundColor);
+			if (c != null) {
+				backgroundColor = c;
+				mainFrame.setBackground(backgroundColor);
+				mainFrame.setLocation(15, 25);
+				mainFrame.setBounds(new Rectangle(480, 400));
+
+			}
+		}
+		System.out.println("Unknown action");
 	}
 
 	/**
@@ -582,7 +599,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		protected final Dimension preferred_size = new Dimension(350, 170);
+		protected final Dimension preferred_size = new Dimension(450, 300);
 		protected Image img; // for drawing pixels
 		protected Dimension d, imgsize;
 		protected Graphics gr;
