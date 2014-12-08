@@ -34,7 +34,8 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 	private JFrame mainFrame = null;
 	private JPanel subPanel = null;
 	private DrawPanel drawPanel = null;
-	private JButton clearButton, leaveButton, brushColorButton;
+	private JButton clearButton, leaveButton, setTitleButton, brushColorButton;
+	private JTextField txtGroup;
 	private final Random random = new Random(System.currentTimeMillis());
 	private final Font defaultFont = new Font("Helvetica", Font.PLAIN, 12);
 	private final Color drawColor = selectColor(); // fix draw color
@@ -82,6 +83,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		channel.setReceiver(this);
 		channel.addChannelListener(this);
 		this.send_own_state_on_merge = send_own_state_on_merge;
+
 	}
 
 	/**
@@ -221,6 +223,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 			if (group_name != null)
 				whiteBoard.setGroupName(group_name);
 			whiteBoard.go();
+
 		} catch (Throwable e) {
 			e.printStackTrace(System.err);
 			System.exit(0);
@@ -285,6 +288,15 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		clearButton = new JButton("Clear");
 		clearButton.setFont(defaultFont);
 		clearButton.addActionListener(this);
+
+		// Set txtGroup
+		txtGroup = new JTextField("", 5);
+
+		// set title button
+		setTitleButton = new JButton("Title");
+		setTitleButton.setFont(defaultFont);
+		setTitleButton.addActionListener(this);
+
 		// button brushColorButton
 		brushColorButton = new JButton("Brush");
 		brushColorButton.setFont(defaultFont);
@@ -296,14 +308,19 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		subPanel.add("South", clearButton);
 		subPanel.add("South", leaveButton);
 		subPanel.add("South", brushColorButton);
+		subPanel.add("South", setTitleButton);
+		subPanel.add("South", txtGroup);
+		txtGroup.setSize(20, 40);
+
 		mainFrame.getContentPane().add("South", subPanel);
 		mainFrame.setBackground(backgroundColor);
 		clearButton.setForeground(Color.blue);
 		leaveButton.setForeground(Color.blue);
 		brushColorButton.setForeground(Color.blue);
+		setTitleButton.setForeground(Color.blue);
 		mainFrame.pack();
 		mainFrame.setLocation(15, 25);
-		mainFrame.setBounds(new Rectangle(250, 250));
+		mainFrame.setBounds(new Rectangle(450, 250));
 
 		if (!noChannel && useState) {
 			channel.connect(groupName, null, stateTimeout);
@@ -471,6 +488,8 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 			stop();
 		} else if (e.getSource() == brushColorButton) {
 			functionBrushColor();// call function here
+		} else if (e.getSource() == setTitleButton) {
+			functionSetTitle();// call function
 		} else
 			System.out.println("Unknown action");
 	}
@@ -563,7 +582,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		protected final Dimension preferred_size = new Dimension(235, 170);
+		protected final Dimension preferred_size = new Dimension(350, 170);
 		protected Image img; // for drawing pixels
 		protected Dimension d, imgsize;
 		protected Graphics gr;
@@ -771,7 +790,12 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 	 * This is function brush color//Fix here
 	 */
 	public void functionBrushColor() {
+		System.out.println("Brush");
+	}// method
 
+	public void functionSetTitle() {
+		System.out.println("Set title");
+		setTitle(txtGroup.getText());
 	}// method
 
 }
