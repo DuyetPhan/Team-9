@@ -34,7 +34,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 	private JFrame mainFrame = null;
 	private JPanel subPanel = null;
 	private DrawPanel drawPanel = null;
-	private JButton clearButton, leaveButton, setTitleButton, brushColorButton,
+	private JButton clearButton, leaveButton, setTitleButton, brushColorButton,sizebrushButton,
 			background;
 	private JTextField txtGroup;
 	private final Random random = new Random(System.currentTimeMillis());
@@ -313,10 +313,14 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		leaveButton = new JButton("Leave");
 		leaveButton.setFont(defaultFont);
 		leaveButton.addActionListener(this);
+		sizebrushButton = new JButton("Size Brush");
+		sizebrushButton.setFont(defaultFont);
+		sizebrushButton.addActionListener(this);
 		subPanel.add("South", clearButton);
 		subPanel.add("South", leaveButton);
 		subPanel.add("South", background);
 		subPanel.add("South", brushColorButton);
+		subPanel.add("South", sizebrushButton);
 		subPanel.add("South", setTitleButton);
 		subPanel.add("South", txtGroup);
 		txtGroup.setSize(20, 40);
@@ -326,6 +330,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		clearButton.setForeground(Color.blue);
 		leaveButton.setForeground(Color.blue);
 		brushColorButton.setForeground(Color.blue);
+		sizebrushButton.setForeground(Color.blue);
 		setTitleButton.setForeground(Color.blue);
 		mainFrame.pack();
 
@@ -599,7 +604,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		protected final Dimension preferred_size = new Dimension(450, 300);
+		protected final Dimension preferred_size = new Dimension(550, 300);
 		protected Image img; // for drawing pixels
 		protected Dimension d, imgsize;
 		protected Graphics gr;
