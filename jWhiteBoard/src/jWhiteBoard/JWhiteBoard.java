@@ -34,12 +34,12 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 	private JFrame mainFrame = null;
 	private JPanel subPanel = null;
 	private DrawPanel drawPanel = null;
-	private JButton clearButton, leaveButton, setTitleButton, brushColorButton,sizebrushButton,
-			background;
+	private JButton clearButton, leaveButton, setTitleButton, brushColorButton,
+			sizebrushButton, background;
 	private JTextField txtGroup;
 	private final Random random = new Random(System.currentTimeMillis());
 	private final Font defaultFont = new Font("Helvetica", Font.PLAIN, 12);
-	private final Color drawColor = selectColor(); // fix draw color
+	private Color drawColor = Color.BLACK; // fix draw color
 	// sua mau nen
 	private static Color backgroundColor = Color.WHITE;
 	boolean noChannel = false;
@@ -499,7 +499,12 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		} else if (e.getSource() == leaveButton) {// fix
 			stop();
 		} else if (e.getSource() == brushColorButton) {
-			functionBrushColor();// call function here
+			Color a = JColorChooser.showDialog(null, "Pick your color",
+					drawColor);
+			if (a != null) {
+				drawColor = a;
+				drawPanel.setBackground(drawColor);
+			}
 		} else if (e.getSource() == setTitleButton) {
 			functionSetTitle();// call function
 		} else if (e.getSource() == background) {
@@ -807,13 +812,6 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		}
 
 	}
-
-	/**
-	 * This is function brush color//Fix here
-	 */
-	public void functionBrushColor() {
-		System.out.println("Brush");
-	}// method
 
 	public void functionSetTitle() {
 		System.out.println("Set title");
