@@ -18,6 +18,7 @@ public class DrawCommand implements Streamable {
     int x;
     int y;
     int rgb;
+    int brushSize;
 
     public DrawCommand() { // needed for streamable
     }
@@ -31,6 +32,14 @@ public class DrawCommand implements Streamable {
         this.x=x;
         this.y=y;
         this.rgb=rgb;
+        
+    }
+    DrawCommand(byte mode, int x, int y, int rgb, int brushSize) {
+        this.mode=mode;
+        this.x=x;
+        this.y=y;
+        this.rgb=rgb;
+        this.brushSize=brushSize;
     }
 
 
@@ -39,6 +48,7 @@ public class DrawCommand implements Streamable {
         out.writeInt(x);
         out.writeInt(y);
         out.writeInt(rgb);
+        out.writeInt(brushSize);
     }
 
     public void readFrom(DataInput in) throws Exception {
@@ -46,6 +56,7 @@ public class DrawCommand implements Streamable {
         x=in.readInt();
         y=in.readInt();
         rgb=in.readInt();
+        brushSize=in.readInt();
     }
 
 

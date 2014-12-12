@@ -682,6 +682,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 					dos.writeInt(point.x);
 					dos.writeInt(point.y); // fixed
 					dos.writeInt(col.getRGB());
+					
 				}
 				dos.flush();
 				System.out.println("wrote " + state.size() + " elements");
@@ -748,7 +749,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		public void mouseDragged(MouseEvent e) {
 			int x = e.getX(), y = e.getY(); // fixed
 			DrawCommand comm = new DrawCommand(DrawCommand.DRAW, x, y,
-					drawColor.getRGB());
+					drawColor.getRGB(), sizeBrush);
 
 			if (noChannel) {
 				drawPoint(comm);
@@ -783,7 +784,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 				return;
 			Color col = new Color(c.rgb);
 			gr.setColor(col);
-			gr.fillOval(c.x, c.y, getSizeBrush(), getSizeBrush());
+			gr.fillOval(c.x, c.y, c.brushSize,  c.brushSize);
 			repaint();
 			if (state != null) {
 				synchronized (state) {
