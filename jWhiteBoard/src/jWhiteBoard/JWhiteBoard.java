@@ -28,7 +28,7 @@ import java.util.List;
 
 public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		ChannelListener {
-	protected String groupName = "OKGROUP";
+	protected String groupName = "TEAM9";
 	private int sizeBrush = 10;
 
 	public int getSizeBrush() {
@@ -41,7 +41,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		} else {
 			if (sizeBrush > 2)
 				this.sizeBrush += width;
-		}//if else
+		}// if else
 
 	}// method
 
@@ -310,7 +310,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		txtGroup = new JTextField("", 5);
 
 		// set title button
-		setTitleButton = new JButton("Title");
+		setTitleButton = new JButton("Group");
 		setTitleButton.setFont(defaultFont);
 		setTitleButton.addActionListener(this);
 
@@ -380,7 +380,8 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 			mainFrame.setTitle(title);
 		} else {
 			if (channel.getAddress() != null)
-				tmp += channel.getAddress();
+				tmp += getGroupName() + "-";
+			tmp += channel.getAddress();
 			tmp += " (" + memberSize + ")";
 			mainFrame.setTitle(tmp);
 		}
@@ -682,7 +683,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 					dos.writeInt(point.x);
 					dos.writeInt(point.y); // fixed
 					dos.writeInt(col.getRGB());
-					
+
 				}
 				dos.flush();
 				System.out.println("wrote " + state.size() + " elements");
@@ -784,7 +785,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 				return;
 			Color col = new Color(c.rgb);
 			gr.setColor(col);
-			gr.fillOval(c.x, c.y, c.brushSize,  c.brushSize);
+			gr.fillOval(c.x, c.y, c.brushSize, c.brushSize);
 			repaint();
 			if (state != null) {
 				synchronized (state) {
@@ -842,7 +843,8 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 
 	public void functionSetTitle() {
 		System.out.println("Set title");
-		setTitle(txtGroup.getText());
+		setGroupName(txtGroup.getText());
+		setTitle();
 	}// method
 
 }
