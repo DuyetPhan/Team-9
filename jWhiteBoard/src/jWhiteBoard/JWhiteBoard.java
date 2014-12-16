@@ -51,8 +51,12 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 	private JPanel subPanel = null;
 	private DrawPanel drawPanel = null;
 	private JButton clearButton, leaveButton, setTitleButton, brushColorButton,
-			sizePlus, sizeTru, background;
-	private JTextField txtGroup;
+			sizePlus, sizeTru, background, sendMsg;
+	private JTextField txtGroup, txtMsg;
+	private JTextArea area = new JTextArea(
+			"                                  					\n");
+
+	private JScrollPane scoll = new JScrollPane(area);
 	private final Random random = new Random(System.currentTimeMillis());
 	private final Font defaultFont = new Font("Helvetica", Font.PLAIN, 12);
 	private Color drawColor = Color.BLACK; // fix draw color
@@ -301,6 +305,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		drawPanel.setBackground(backgroundColor);
 		subPanel = new JPanel();
 		mainFrame.getContentPane().add("Center", drawPanel);
+
 		// sua button
 		clearButton = new JButton("Clear");
 		clearButton.setFont(defaultFont);
@@ -308,6 +313,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 
 		// Set txtGroup
 		txtGroup = new JTextField("", 5);
+		txtMsg = new JTextField("", 10);
 
 		// set title button
 		setTitleButton = new JButton("Group");
@@ -336,6 +342,11 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		sizeTru = new JButton("-");
 		sizeTru.setFont(defaultFont);
 		sizeTru.addActionListener(this);
+		// Add button sendMsg
+		sendMsg = new JButton("SendMsg");
+		sendMsg.setFont(defaultFont);
+		sendMsg.setForeground(Color.RED);
+		sendMsg.addActionListener(this);
 
 		subPanel.add("South", clearButton);
 		subPanel.add("South", leaveButton);
@@ -345,9 +356,14 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		subPanel.add("South", sizeTru);
 		subPanel.add("South", setTitleButton);
 		subPanel.add("South", txtGroup);
+		subPanel.add("South", sendMsg);
+		subPanel.add("South", txtMsg);
 		txtGroup.setSize(20, 40);
+		txtMsg.setSize(50, 40);
 
 		mainFrame.getContentPane().add("South", subPanel);
+		mainFrame.getContentPane().add("East", scoll);
+		area.setEditable(false);
 		mainFrame.setBackground(backgroundColor);
 		clearButton.setForeground(Color.blue);
 		leaveButton.setForeground(Color.blue);
@@ -414,6 +430,11 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 				break;
 			case DrawCommand.CLEAR:
 				clearPanel();
+				break;
+			case DrawCommand.TEXT:
+				String receivedTextMessage = comm.textMessage;
+				area.append(receivedTextMessage + "\n");
+				break;
 			default:
 				System.err.println("***** received invalid draw command "
 						+ comm.mode);
@@ -495,8 +516,24 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 	/**
 	 * Send Clear command to all members in Group
 	 */
-	public void sendClearPanelMsg() {
+	public void rPanelMsg() {
 		DrawCommand comm = new DrawCommand(DrawCommand.CLEAR);
+		try {
+			byte[] buf = Util.streamableToByteBuffer(comm);
+			if (use_unicasts)
+				sendToAll(buf);
+			else
+				channel.send(new Message(null, null, buf));
+		} catch (Exception ex) {
+			System.err.println(ex);
+		}
+	}
+
+	/**
+	 * Send MESSAGE command to all members in Group
+	 */
+	public void sendTextMsg(String textMessage) {
+		DrawCommand comm = new DrawCommand(DrawCommand.TEXT, textMessage);
 		try {
 			byte[] buf = Util.streamableToByteBuffer(comm);
 			if (use_unicasts)
@@ -518,7 +555,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 				clearPanel();
 				return;
 			}
-			sendClearPanelMsg();
+			rPanelMsg();
 		} else if (e.getSource() == leaveButton) {// fix
 			stop();
 		} else if (e.getSource() == sizePlus) {
@@ -534,6 +571,8 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 			}
 		} else if (e.getSource() == setTitleButton) {
 			functionSetTitle();// call function
+		} else if (e.getSource() == sendMsg) {
+			sendTextMsg(txtMsg.getText());
 		} else if (e.getSource() == background) {
 			Color c = JColorChooser.showDialog(null, "Pick your color",
 					backgroundColor);
