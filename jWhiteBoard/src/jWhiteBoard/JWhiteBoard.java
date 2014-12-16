@@ -29,20 +29,14 @@ import java.util.List;
 public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		ChannelListener {
 	protected String groupName = "TEAM9";
-	private int sizeBrush = 10;
+	private static int sizeBrush = 5;
+
+	private static void setSB(int SB) {
+		sizeBrush = SB;
+	}// end methoid
 
 	public int getSizeBrush() {
 		return sizeBrush;
-	}// method
-
-	public void setSizeBrush(int width) {
-		if (width > 0) {
-			this.sizeBrush += width;
-		} else {
-			if (sizeBrush > 2)
-				this.sizeBrush += width;
-		}// if else
-
 	}// method
 
 	private JChannel channel = null;
@@ -51,8 +45,11 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 	private JPanel subPanel = null;
 	private DrawPanel drawPanel = null;
 	private JButton clearButton, leaveButton, setTitleButton, brushColorButton,
-			sizePlus, sizeTru, background, sendMsg;
+			background, sendMsg;
 	private JTextField txtGroup, txtMsg;
+	private static String[] sListNUmber = { "5", "10", "15", "20", "25", "30",
+			"35", "40" };
+	private static JComboBox setSBbutton = new JComboBox<String>(sListNUmber);
 	private JTextArea area = new JTextArea(
 			"                                  					\n");
 
@@ -335,13 +332,10 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		leaveButton = new JButton("Leave");
 		leaveButton.setFont(defaultFont);
 		leaveButton.addActionListener(this);
-		sizePlus = new JButton("+");
-		sizePlus.setFont(defaultFont);
-		sizePlus.addActionListener(this);
+		setSBbutton.setSelectedIndex(1);
+		setSBbutton.setFont(defaultFont);
+		setSBbutton.addActionListener(this);
 
-		sizeTru = new JButton("-");
-		sizeTru.setFont(defaultFont);
-		sizeTru.addActionListener(this);
 		// Add button sendMsg
 		sendMsg = new JButton("SendMsg");
 		sendMsg.setFont(defaultFont);
@@ -352,8 +346,8 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		subPanel.add("South", leaveButton);
 		subPanel.add("South", background);
 		subPanel.add("South", brushColorButton);
-		subPanel.add("South", sizePlus);
-		subPanel.add("South", sizeTru);
+		subPanel.add("South", setSBbutton);
+
 		subPanel.add("South", setTitleButton);
 		subPanel.add("South", txtGroup);
 		subPanel.add("South", sendMsg);
@@ -368,7 +362,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		clearButton.setForeground(Color.blue);
 		leaveButton.setForeground(Color.blue);
 		brushColorButton.setForeground(Color.blue);
-		sizePlus.setForeground(Color.blue);
+		setSBbutton.setForeground(Color.blue);
 		setTitleButton.setForeground(Color.blue);
 		mainFrame.pack();
 
@@ -558,10 +552,8 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 			rPanelMsg();
 		} else if (e.getSource() == leaveButton) {// fix
 			stop();
-		} else if (e.getSource() == sizePlus) {
-			setSizeBrush(1);
-		} else if (e.getSource() == sizeTru) {
-			setSizeBrush(-1);
+		} else if (e.getSource() == setSBbutton) {
+			setSB(setSBbutton.getSelectedIndex() + 5);
 		} else if (e.getSource() == brushColorButton) {
 			Color a = JColorChooser.showDialog(null, "Pick your color",
 					drawColor);
