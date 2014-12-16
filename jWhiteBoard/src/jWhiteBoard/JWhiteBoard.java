@@ -580,7 +580,9 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 				backgroundColor = c;
 				mainFrame.setBackground(backgroundColor);
 				mainFrame.setLocation(15, 25);
-				mainFrame.setBounds(new Rectangle(480, 400));
+				Rectangle defaultD = mainFrame.getBounds();
+				defaultD.width += 1;
+				mainFrame.setBounds(defaultD);
 
 			}
 		}
