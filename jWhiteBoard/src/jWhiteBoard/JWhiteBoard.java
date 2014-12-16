@@ -883,6 +883,14 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 	public void functionSetTitle() {
 		System.out.println("Set title");
 		setGroupName(txtGroup.getText());
+		if (!noChannel && !useState)
+			try {
+				channel.disconnect();
+				channel.connect(groupName);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		setTitle();
 	}// method
 
