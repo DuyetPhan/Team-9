@@ -51,7 +51,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 			"35", "40" };
 	private static JComboBox setSBbutton = new JComboBox<String>(sListNUmber);
 	private JTextArea area = new JTextArea(
-			"                                  					\n");
+			"                               	\n");
 
 	private JScrollPane scoll = new JScrollPane(area);
 	private final Random random = new Random(System.currentTimeMillis());
@@ -313,17 +313,19 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		txtMsg = new JTextField("", 10);
 
 		// set title button
-		setTitleButton = new JButton("Group");
+		setTitleButton = new JButton("GroupName");
 		setTitleButton.setFont(defaultFont);
+		setTitleButton.setForeground(Color.RED);
 		setTitleButton.addActionListener(this);
 
 		// button brushColorButton
-		brushColorButton = new JButton("Brush");
+		brushColorButton = new JButton("BrushColor");
+		brushColorButton.setForeground(Color.yellow);
 		brushColorButton.setFont(defaultFont);
 		brushColorButton.addActionListener(this);
 
 		// Background Color
-		background = new JButton("Display");
+		background = new JButton("BackgroundColor");
 		background.setFont(defaultFont);
 		background.setForeground(Color.blue);
 		background.addActionListener(this);
@@ -339,31 +341,29 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 		// Add button sendMsg
 		sendMsg = new JButton("SendMsg");
 		sendMsg.setFont(defaultFont);
-		sendMsg.setForeground(Color.RED);
+		sendMsg.setForeground(Color.BLACK);
 		sendMsg.addActionListener(this);
-
-		subPanel.add("South", clearButton);
-		subPanel.add("South", leaveButton);
+		subPanel.add("South", txtMsg);
+		subPanel.add("South", sendMsg);
+		subPanel.add("South", txtGroup);
+		subPanel.add("South", setTitleButton);
+		subPanel.add("South", setSBbutton);
 		subPanel.add("South", background);
 		subPanel.add("South", brushColorButton);
-		subPanel.add("South", setSBbutton);
-
-		subPanel.add("South", setTitleButton);
-		subPanel.add("South", txtGroup);
-		subPanel.add("South", sendMsg);
-		subPanel.add("South", txtMsg);
+		subPanel.add("South", clearButton);
+		subPanel.add("South", leaveButton);
 		txtGroup.setSize(20, 40);
 		txtMsg.setSize(50, 40);
 
 		mainFrame.getContentPane().add("South", subPanel);
-		mainFrame.getContentPane().add("East", scoll);
+		mainFrame.getContentPane().add("West", scoll);
 		area.setEditable(false);
 		mainFrame.setBackground(backgroundColor);
-		clearButton.setForeground(Color.blue);
-		leaveButton.setForeground(Color.blue);
+		clearButton.setForeground(Color.green);
+		leaveButton.setForeground(Color.red);
 		brushColorButton.setForeground(Color.blue);
-		setSBbutton.setForeground(Color.blue);
-		setTitleButton.setForeground(Color.blue);
+		setSBbutton.setForeground(Color.BLACK);
+		setTitleButton.setForeground(Color.red);
 		mainFrame.pack();
 
 		if (!noChannel && useState) {
@@ -573,8 +573,8 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener,
 				mainFrame.setBackground(backgroundColor);
 				mainFrame.setLocation(15, 25);
 				Rectangle defaultD = mainFrame.getBounds();
-				defaultD.width += 1;
-				mainFrame.setBounds(defaultD);
+				defaultD.width += -1;
+				mainFrame.setBounds(new Rectangle(1000, 400));
 
 			}
 		}
